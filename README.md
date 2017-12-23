@@ -24,7 +24,7 @@ Head on over to https://console.developers.google.com/
 
 There is a drop down menu in the top bar that should say something like “My Project”. Click this and a popup window should appear. Click the `+` on the top right to create a new project. Give your project a name and click `create`. Your project should now appear in the project drop down in the top menu. We’ll come back to that later. 
 
-<img src="/images/project_name.png" width="100px" align = "center">
+<img src="/images/project_name.png" width="250">
 
 Looking at the empty dashboard we need to choose which API we want to interact with. Choose the Library option in the left hand menu to search available APIs (google has just a few available). 
 
