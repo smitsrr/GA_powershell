@@ -28,7 +28,7 @@ There is a drop down menu in the top bar that should say something like “My Proj
 
 Looking at the empty dashboard we need to choose which API we want to interact with. Choose the Library option in the left hand menu to search available APIs (google has just a few available). 
 
-Image
+<img src="/images/console_menu.png" width ="250">
 
 Unless they have changed something since this writing, there are two “Analytics APIs” available. Either one should work, but I chose the “Analytics API” over the “Google Analytics Reporting API”. We’ll have to match that up with our settings in the OAuth playground. 
 
@@ -48,11 +48,13 @@ Navigate to https://developers.google.com/oauthplayground/ (note: there are othe
 **Step 1:** Authorize and Select APIs
 Here you are going to choose the API you chose above and click `Authorize APIs`. You should be redirected to an authorization page. 
 
-Image 
+<img src="/images/api_name.png" width = "250">
 
 **Step 2:** After authorizing you are given the option to `Exchange Authorization Code` for Tokens. Do that. Copy your access and refresh tokens into your powershell script (or a text editor for now). 
 
 If this authorization doesn’t work, you may need to change some configuration settings in the OAuth 2.0 Playground. This is what mine looked like:
+
+<img src="/images/oauth2_config.png" width="400">
 
 #### Powershell Time
 Every windows machine comes with Powershell, you likely just have never used it. Look for your Powershell ISE and Run As Administrator
