@@ -12,19 +12,19 @@ There are many examples online of the types of reports that one might run direct
 Having no background in powershell, and having not worked with many API’s it took me a few days of muddling to get it to work. I hope I can save you some time if you are attempting to access your GA data through Powershell. 
 
 
-#### Google Analytics Configuration
+### Google Analytics Configuration
 If you haven’t yet, you need to configure GA to collect data on your webpage. For us, it was the institution’s Canvas system. Note: GA will only collect data after you turn it on - there is no going back in history. 
 
 If you were not the one to configure GA, you need to be granted administrator privileges to the GA account. Note: only google accounts are allowed access, so hopefully you have one to use. 
 
 You will need your google analytics View ID, which should look something like `123456789`.  Not to be confused with your Tracking ID which is in the format `UA-123456789-1`. 
 
-#### Developers Configuration
+### Developers Configuration
 Head on over to https://console.developers.google.com/ 
 
 There is a drop down menu in the top bar that should say something like “My Project”. Click this and a popup window should appear. Click the `+` on the top right to create a new project. Give your project a name and click `create`. Your project should now appear in the project drop down in the top menu. We’ll come back to that later. 
 
-<img src="/images/project_name.png" width="250">
+<img src="/images/project_name.png" width="300">
 
 Looking at the empty dashboard we need to choose which API we want to interact with. Choose the Library option in the left hand menu to search available APIs (google has just a few available). 
 
@@ -41,14 +41,14 @@ https://developers.google.com/oauthplayground (we’ll use this to get our tokens)
 
 Before you save and exit, go ahead and copy your `Client ID` and `Client Secret` into your powershell script (or a text editor for now). 
 
-#### Token Time!
+### Token Time!
 
 Navigate to https://developers.google.com/oauthplayground/ (note: there are other ways to get your token, this is just the one I used). 
 
 **Step 1:** Authorize and Select APIs
 Here you are going to choose the API you chose above and click `Authorize APIs`. You should be redirected to an authorization page. 
 
-<img src="/images/api_name.png" width = "250">
+<img src="/images/api_name.png" width = "300">
 
 **Step 2:** After authorizing you are given the option to `Exchange Authorization Code` for Tokens. Do that. Copy your access and refresh tokens into your powershell script (or a text editor for now). 
 
@@ -56,7 +56,7 @@ If this authorization doesn’t work, you may need to change some configuration se
 
 <img src="/images/oauth2_config.png" width="400">
 
-#### Powershell Time
+### Powershell Time
 Every windows machine comes with Powershell, you likely just have never used it. Look for your Powershell ISE and Run As Administrator
 
 If you have ever run R, the powershell interface should look familiar. You have a script writing area, and a console. You can type and save commands in the script, or just run commands in the console. The console is where any results set to display will show. Note, the script files save as `.ps1` and can be executed without opening powershell. Because of that, email clients don’t like sending them as attachments (as I learned the hard way). If you want to save and share your script, save it as a `.txt` file. You can always copy it back into Powershell. 
