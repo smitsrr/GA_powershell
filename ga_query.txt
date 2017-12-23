@@ -1,0 +1,89 @@
+# Introduction: 
+#   I've included lots of comments on what the code does. I highly recommend running the code one
+#   line, or one section, at a time, pausing to view the results of what you did. 
+
+    
+    # This must be run once on every machine that will run the script. It will open a dialog
+    # box, to which you have to say "yes". Comment this line out when you want to run
+    # the entire script
+Set-ExecutionPolicy RemoteSigned
+
+    #This block sets variables equal to strings we have obtained elsewhere. 
+    # clientId and secret are from your project in console.developers.google.com/
+$clientId = "CLIENT_ID";
+$secret = "CLIENT_SECRET";
+    # I don't know why this needs to be this, but it does
+$redirectURI = "urn:ietf:wg:oauth:2.0:oob";
+    # What you got when you exchanged your Authorization Code in the OAuth 2.0 Playground
+$refreshToken = "REFRESH_TOKEN"; #keep super secret!!
+
+    # No need to alter this chunk. 
+$refreshTokenParams = @{
+	  client_id=$clientId;
+  	  client_secret=$secret;
+      refresh_token=$refreshToken;
+	  grant_type='refresh_token';
+	}
+
+    # This will refresh your access token (remember, it expires), using your refresh token
+$token = Invoke-RestMethod -Uri "https://accounts.google.com/o/oauth2/token" -Method POST -Body $refreshTokenParams 
+
+    # In the console, go ahead and type: $token
+    # and press enter. You should see a whole bunch of text for your Access Token and
+    # when it is set to expire
+
+    # This is your Google Analytics Tracking ID 
+$viewid = "123456789"
+    # Pull data from $startDate to $endDate
+$startDate = "2017-12-10"
+$endDate = "2017-12-11"
+
+    # Build the analytics request based on the URL shown in the query-explorer. I broke it into two lines because it's so long. 
+$analyticsRequest = "https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A"+$viewid+"&start-date="+$startDate+"&end-date="+$endDate
+$analyticsRequest = $analyticsRequest+"&metrics=ga%3Apageviews%2Cga%3AtimeOnPage&dimensions=ga%3Adimension1%2Cga%3Adimension4%2Cga%3Adimension7%2Cga%3Adate&max-results=1000&access_token="+$token.access_token
+    # Note, this request returns pageviews and time on page broken down by my custom dimensions 1, 4, 7 and date. You can add/remove dimensions/metrics to your liking. 
+
+
+    # send the request and save results as $data
+ try {
+    $data = Invoke-RestMethod -ContentType "application/json" -Uri $analyticsRequest -Method GET
+  } catch {
+    Write-Output -2
+    Write-Output $_.Exception
+    exit
+  }
+   # the object $data is an object with many properties. View the ouptut in your console. 
+   # Note the $data.itemsPerPage item and $data.totalResults item. This tells us that the request is returning X rows, based on Y total rows. 
+   # conveniently, the API provides the request link to request the next X rows in the $data.nextLink object. 
+   # Notice $data.rows - That's our data! 
+
+   # Figure out how many times we need to run the analytics request to get all of the results
+$loop_count = [int][Math]::Ceiling($data.totalResults/$data.itemsPerPage);
+
+   # Format the $data.rows object into a pipe-delimited data structure
+$output = $data.rows | % { $_ -join "|"}
+
+
+   # If we need to run the loop (i.e., returned more than $data.itemsPerPage total rows)
+if ($loop_count -gt 1) {
+        # iterating in increments of 1 from 1 to $loop_count
+    for ($i=1; $i -lt $loop_count; $i+=1) {
+          # append your access token to the $data.nextLink URL request
+     $analyticsRequest = $data.nextLink+"&access_token="+$token.access_token
+          # if you want to watch the console work, uncomment the following line:
+          # $i
+     try {
+            # Run this data request
+         $data = Invoke-RestMethod -ContentType "application/json" -Uri $analyticsRequest -Method GET
+     } catch {
+         Write-Output -2
+         Write-Output $_.Exception
+         exit
+     }
+           # Append the current $data.rows to what we started above. It will keep adding rows as the loop iterates
+     $output = $output + $data.rows | % { $_ -join "|"}
+    }
+}
+
+   # It's only really useful if we save the date! 
+$output | Out-File "PATH\FILENAME.csv" -Encoding ASCII
