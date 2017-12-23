@@ -61,5 +61,5 @@ Every windows machine comes with Powershell, you likely just have never used it.
 
 If you have ever run R, the powershell interface should look familiar. You have a script writing area, and a console. You can type and save commands in the script, or just run commands in the console. The console is where any results set to display will show. Note, the script files save as `.ps1` and can be executed without opening powershell. Because of that, email clients don’t like sending them as attachments (as I learned the hard way). If you want to save and share your script, save it as a `.txt` file. You can always copy it back into Powershell. 
 
-Jump on over to my powershell script, fork it, clone it, copy/paste it and follow along. 
+Jump on over to my powershell script (saved here as `.txt`, fork it, clone it, copy/paste it and follow along. 
 
