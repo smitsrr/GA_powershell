@@ -85,5 +85,5 @@ if ($loop_count -gt 1) {
     }
 }
 
-   # It's only really useful if we save the date! 
+   # It's only really useful if we save the data! 
 $output | Out-File "PATH\FILENAME.csv" -Encoding ASCII
