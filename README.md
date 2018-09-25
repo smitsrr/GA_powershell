@@ -9,11 +9,11 @@ Though the reporting interface of google analytics is very powerful, we knew we 
 
 There are many examples online of the types of reports that one might run directly in google analytics to answer these questions, however, the real power comes from integrating the canvas course ID and User ID that you can feed through GA to your internal student information system (SIS). We are doing this through our data warehouse. By linking these two data sources we can evaluate course engagement by user (student or instructor) by department, course, or each individual. 
 
-Having no background in powershell, and having not worked with many APIís it took me a few days of muddling to get it to work. I hope I can save you some time if you are attempting to access your GA data through Powershell. 
+Having no background in powershell, and having not worked with many API‚Äôs it took me a few days of muddling to get it to work. I hope I can save you some time if you are attempting to access your GA data through Powershell. 
 
 
 ### Google Analytics Configuration
-If you havenít yet, you need to configure GA to collect data on your webpage. For us, it was the institutionís Canvas system. Note: GA will only collect data after you turn it on - there is no going back in history. 
+If you haven‚Äôt yet, you need to configure GA to collect data on your webpage. For us, it was the institution‚Äôs Canvas system. Note: GA will only collect data after you turn it on - there is no going back in history. 
 
 If you were not the one to configure GA, you need to be granted administrator privileges to the GA account. Note: only google accounts are allowed access, so hopefully you have one to use. 
 
@@ -22,7 +22,7 @@ You will need your google analytics View ID, which should look something like `1
 ### Developers Configuration
 Head on over to https://console.developers.google.com/ 
 
-There is a drop down menu in the top bar that should say something like ìMy Projectî. Click this and a popup window should appear. Click the `+` on the top right to create a new project. Give your project a name and click `create`. Your project should now appear in the project drop down in the top menu. Weíll come back to that later. 
+There is a drop down menu in the top bar that should say something like ‚ÄúMy Project‚Äù. Click this and a popup window should appear. Click the `+` on the top right to create a new project. Give your project a name and click `create`. Your project should now appear in the project drop down in the top menu. We‚Äôll come back to that later. 
 
 <img src="/images/project_name.png" width="300">
 
@@ -30,14 +30,14 @@ Looking at the empty dashboard we need to choose which API we want to interact w
 
 <img src="/images/console_menu.png" width ="250">
 
-Unless they have changed something since this writing, there are two ìAnalytics APIsî available. Either one should work, but I chose the ìAnalytics APIî over the ìGoogle Analytics Reporting APIî. Weíll have to match that up with our settings in the OAuth playground. 
+Unless they have changed something since this writing, there are two ‚ÄúAnalytics APIs‚Äù available. Either one should work, but I chose the ‚ÄúAnalytics API‚Äù over the ‚ÄúGoogle Analytics Reporting API‚Äù. We‚Äôll have to match that up with our settings in the OAuth playground. 
 
 Click `Enable` after which you will be redirected back to the dashboard.
-Navigate to the `Credentials` on the left hand menu. Choose `Create Credentials` and choose `OAuth Client ID` then  `Web Application` (I know itís not a web app, but we are going to pretend to be one) then give it a name (doesnít matter what it is). 
+Navigate to the `Credentials` on the left hand menu. Choose `Create Credentials` and choose `Google analytics reporting API` then  `Other UI` then give it a name (doesn‚Äôt matter what it is). 
 
-Importantly we want to create two Authorized Redirect URIís
-http://localhost/oauth2callback (weíll use this in our script)
-https://developers.google.com/oauthplayground (weíll use this to get our tokens)
+Importantly we want to create two Authorized Redirect URI‚Äôs
+http://localhost/oauth2callback (we‚Äôll use this in our script)
+https://developers.google.com/oauthplayground (we‚Äôll use this to get our tokens)
 
 Before you save and exit, go ahead and copy your `Client ID` and `Client Secret` into your powershell script (or a text editor for now). 
 
@@ -52,14 +52,14 @@ Here you are going to choose the API you chose above and click `Authorize APIs`.
 
 **Step 2:** After authorizing you are given the option to `Exchange Authorization Code` for Tokens. Do that. Copy your access and refresh tokens into your powershell script (or a text editor for now). 
 
-If this authorization doesnít work, you may need to change some configuration settings in the OAuth 2.0 Playground. This is what mine looked like:
+If this authorization doesn‚Äôt work, you may need to change some configuration settings in the OAuth 2.0 Playground. This is what mine looked like:
 
 <img src="/images/oauth2_config.png" width="400">
 
 ### Powershell Time
 Every windows machine comes with Powershell, you likely just have never used it. Look for your Powershell ISE and Run As Administrator
 
-If you have ever run R, the powershell interface should look familiar. You have a script writing area, and a console. You can type and save commands in the script, or just run commands in the console. The console is where any results set to display will show. Note, the script files save as `.ps1` and can be executed without opening powershell. Because of that, email clients donít like sending them as attachments (as I learned the hard way). If you want to save and share your script, save it as a `.txt` file. You can always copy it back into Powershell. 
+If you have ever run R, the powershell interface should look familiar. You have a script writing area, and a console. You can type and save commands in the script, or just run commands in the console. The console is where any results set to display will show. Note, the script files save as `.ps1` and can be executed without opening powershell. Because of that, email clients don‚Äôt like sending them as attachments (as I learned the hard way). If you want to save and share your script, save it as a `.txt` file. You can always copy it back into Powershell. 
 
 Jump on over to my powershell script (saved here as `.txt`, fork it, clone it, copy/paste it and follow along. 
 
